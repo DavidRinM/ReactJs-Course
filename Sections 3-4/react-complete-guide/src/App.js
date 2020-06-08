@@ -47,7 +47,8 @@ class App extends Component {
         { name: 'Karen', age: 23 },
         { name: 'Caro', age: 16 }
       ],
-      otherState: 'some other value'
+      otherState: 'some other value',
+      showPersons: false
     };
   
     switchNameHandler = (newName) => {
@@ -71,6 +72,11 @@ class App extends Component {
         ]
       });
     }
+
+    togglePersonsHandler = () => {
+      const doesShow = this.state.showPersons;
+      this.setState({showPersons : !doesShow}); //Changes True -> False; False -> True
+    }
   
     render() {
 
@@ -87,23 +93,27 @@ class App extends Component {
           <p>This is really working!</p>
           <button
           style= {style} 
-          onClick={() => this.switchNameHandler("Deivis")}>Switch Name</button>
-          <Person
-            name={this.state.persons[0].name}
-            age={this.state.persons[0].age}
-          />
-          <Person
-            name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            click ={this.switchNameHandler.bind(this, "Bibis")}
-            changed={this.nameChangedHandler}
-          >
-            My Hobbies: Racing
-          </Person>
-          <Person
-            name={this.state.persons[2].name}
-            age={this.state.persons[2].age}
-          />
+          onClick={() => this.togglePersonsHandler()}>Switch Name</button>
+          {this.state.showPersons ? //If showPersons
+          <div>
+            <Person
+              name={this.state.persons[0].name}
+              age={this.state.persons[0].age}
+            />
+            <Person
+              name={this.state.persons[1].name}
+              age={this.state.persons[1].age}
+              click ={this.switchNameHandler.bind(this, "Bibis")}
+              changed={this.nameChangedHandler}
+            >
+              My Hobbies: Racing
+            </Person>
+            <Person
+              name={this.state.persons[2].name}
+              age={this.state.persons[2].age}
+            />
+          </div> : null //If not showPersons ( ifcondition ? do : else)
+          }
         </div>
       );
       // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
