@@ -44,22 +44,34 @@ import person from "./Person/Person";
 class App extends Component {
     state = {
       persons: [
-        { name: 'David', age: 21 },
-        { name: 'Karen', age: 23 },
-        { name: 'Caro', age: 16 }
+        {id:"1", name: 'David', age: 21 },
+        {id:"2", name: 'Karen', age: 23 },
+        {id:"3", name: 'Caro', age: 16 }
       ],
       otherState: 'some other value',
       showPersons: false
     };
 
-    nameChangedHandler = event => {
-      this.setState({
-        persons: [
-          { name: "David", age: 21 },
-          { name: event.target.value, age: 23 },
-          { name: 'Carito', age: 15 }
-        ]
-      });
+    nameChangedHandler = (event, id) => {//user id
+
+      const personIndex = this.state.persons.findIndex(p => { //Finds user Index in the array
+        return p.id === id;
+      })
+
+      const person = { //Copies persons array and selects person based on index
+        ...this.state.persons[personIndex]
+      };
+
+      //Old way
+      //const person = Object.assign({}, this.state.persons[personIndex]) 
+
+      person.name = event.target.value; //Sets person´s name based on value in text field
+
+      const persons = [...this.state.persons];
+
+      persons[personIndex] = person; //Updates persons state
+
+      this.setState({ persons: persons });
     }
 
     togglePersonsHandler = () => {
@@ -94,7 +106,9 @@ class App extends Component {
               return <Person
               click={() => this.deletePersonHandler(index)} 
               name={person.name} 
-              age={person.age} />
+              age={person.age}
+              key={person.id}
+              changed={(event) => this.nameChangedHandler(event, person.id)} />
             })}
 
           </div>
