@@ -1,8 +1,10 @@
 import React, { Component, useState } from "react";
-import "./App.css";
-import styled from "styled-components";
+import styles from "./App.module.css";
 
-import Person from "./Person/Person";
+import Person from "../Components/Person/Person";
+
+
+//import styled from "styled-components";
 
 // const App = props => {
 //   const [ personsState, setPersonsState ] = useState({
@@ -41,19 +43,6 @@ import Person from "./Person/Person";
 //   );
 //     // return React.createElement('div', {className:"App"}, React.createElement('h1', null, "does this work now"));
 // }
-
-const StyledButton = styled.button`
-  background-color: ${props => props.alt ? 'red' : 'green'};
-  color: white;
-  font: inherit;
-  border: 1px solid blue;
-  padding: 8px;
-  cursor: pointer;
-  &:hover {
-    background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-    color: black;
-  }
-`;
 
 class App extends Component {
   state = {
@@ -105,20 +94,8 @@ class App extends Component {
   };
 
   render() {
-     const style = {
-      backgroundColor: "green",
-      color: "white",
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer",
-      ":hover": {
-        backgroundColor: "lightgreen",
-        color: "black",
-      },
-    };
-
     let persons = null;
+    let btnClass = [styles.button];
 
     if (this.state.showPersons) {
       persons = (
@@ -138,28 +115,28 @@ class App extends Component {
         </div>
       );
 
-      // style.backgroundColor = "red"; //change btn color dynamically
-      // style[":hover"] = {
-      //   backgroundColor: "salmon",
-      //   color: "black",
-      // };
+      btnClass.push(styles.Red);
     }
 
     const classes = [];
     if (this.state.persons.length <= 2) {
-      classes.push("red"); //classes = ["red"]
+      classes.push(styles.red); //classes = ["red"]
     }
     if (this.state.persons.length <= 1) {
-      classes.push("bold"); //classes = ["red", 'bold']
+      classes.push(styles.bold); //classes = ["red", 'bold']
     }
 
     return (
-      <div className="App">
+      <div className={styles.App}>
         <h1>Hi, I'm a React App</h1>
         <p className={classes.join(" ")}>This is really working!</p>
-        <StyledButton alt={this.state.showPersons} onClick={() => this.togglePersonsHandler()}>
+        <button
+          className={btnClass.join(" ")}
+          alt={this.state.showPersons}
+          onClick={() => this.togglePersonsHandler()}
+        >
           Switch Name
-        </StyledButton>
+        </button>
         {persons}
       </div>
     );
